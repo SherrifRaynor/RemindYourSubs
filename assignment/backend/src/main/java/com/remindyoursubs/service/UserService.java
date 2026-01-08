@@ -17,13 +17,27 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     private final UserRepository userRepository;
+    private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,
+            org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String email)
+            throws org.springframework.security.core.userdetails.UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new org.springframework.security.core.userdetails.UsernameNotFoundException(
+                        "User not found with email: " + email));
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                new java.util.ArrayList<>());
     }
 
     public List<UserResponseDTO> getAllUsers() {
@@ -52,6 +66,7 @@ public class UserService {
         User user = new User();
         user.setEmail(requestDTO.getEmail());
         user.setName(requestDTO.getName());
+        user.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
         user.setReminderDaysBefore(requestDTO.getReminderDaysBefore());
         user.setResendApiKey(requestDTO.getResendApiKey());
 
@@ -70,6 +85,10 @@ public class UserService {
 
         user.setEmail(requestDTO.getEmail());
         user.setName(requestDTO.getName());
+        // Password update logic should be separate or handled if provided
+        if (requestDTO.getPassword() != null && !requestDTO.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
+        }
         user.setReminderDaysBefore(requestDTO.getReminderDaysBefore());
         user.setResendApiKey(requestDTO.getResendApiKey());
 
