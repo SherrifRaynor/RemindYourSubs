@@ -51,10 +51,14 @@ export class DashboardComponent implements OnInit {
         this.authService.logout();
     }
 
+    upcomingPayments: Subscription[] = [];
+    showNotifications = false;
+
     loadSubscriptions() {
         this.subscriptionService.getSubscriptionsByUserId(this.userId).subscribe({
             next: (data) => {
                 this.subscriptions = data;
+                this.checkUpcomingPayments();
             },
             error: (error) => {
                 console.error('Error loading subscriptions:', error);
@@ -62,6 +66,18 @@ export class DashboardComponent implements OnInit {
             }
         });
     }
+
+    checkUpcomingPayments() {
+        this.upcomingPayments = this.subscriptions.filter(sub => {
+            const days = this.calculateDaysUntilBilling(sub.billingDate);
+            return days >= 0 && days <= 7;
+        });
+    }
+
+    toggleNotifications() {
+        this.showNotifications = !this.showNotifications;
+    }
+
 
     loadMonthlyExpense() {
         this.subscriptionService.getMonthlyExpense(this.userId).subscribe({
