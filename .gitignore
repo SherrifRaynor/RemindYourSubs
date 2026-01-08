@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+assignment/backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+assignment/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+assignment/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
