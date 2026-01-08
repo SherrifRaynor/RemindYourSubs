@@ -17,7 +17,9 @@ public class SubscriptionResponseDTO {
     private Long userId;
     private String name;
     private BigDecimal price;
-    private Integer billingDate;
+    private LocalDate nextBillingDate;
+    private String reminderTiming;
+    private Integer reminderCustomMinutes;
     private Boolean isActive;
     private Boolean reminderEnabled;
     private LocalDate lastReminderSent;

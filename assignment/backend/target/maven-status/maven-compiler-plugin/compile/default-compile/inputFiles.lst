@@ -1,23 +1,24 @@
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\controller\NotificationController.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\controller\SubscriptionController.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\controller\UserController.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\EmailRequestDTO.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\MonthlyExpenseDTO.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\NotificationResponseDTO.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\SubscriptionRequestDTO.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\SubscriptionResponseDTO.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\UserRequestDTO.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\UserResponseDTO.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\exception\GlobalExceptionHandler.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\exception\ResourceNotFoundException.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\model\Notification.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\model\Subscription.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\model\User.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\RemindYourSubsApplication.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\repository\NotificationRepository.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\repository\SubscriptionRepository.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\repository\UserRepository.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\service\EmailService.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\service\NotificationService.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\service\SubscriptionService.java
-C:\laragon\www\portofolio-project\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\service\UserService.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\controller\NotificationController.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\controller\SubscriptionController.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\controller\UserController.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\AnalyticsDTO.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\EmailRequestDTO.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\MonthlyExpenseDTO.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\NotificationResponseDTO.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\SubscriptionRequestDTO.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\SubscriptionResponseDTO.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\UserRequestDTO.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\dto\UserResponseDTO.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\exception\GlobalExceptionHandler.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\exception\ResourceNotFoundException.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\model\Notification.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\model\Subscription.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\model\User.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\RemindYourSubsApplication.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\repository\NotificationRepository.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\repository\SubscriptionRepository.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\repository\UserRepository.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\service\EmailService.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\service\NotificationService.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\service\SubscriptionService.java
+C:\laragon\www\ABL\PROJECT UAS\RemindYourSubs\assignment\backend\src\main\java\com\remindyoursubs\service\UserService.java

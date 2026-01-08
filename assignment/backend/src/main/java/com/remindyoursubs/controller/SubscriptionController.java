@@ -1,5 +1,6 @@
 package com.remindyoursubs.controller;
 
+import com.remindyoursubs.dto.AnalyticsDTO;
 import com.remindyoursubs.dto.MonthlyExpenseDTO;
 import com.remindyoursubs.dto.SubscriptionRequestDTO;
 import com.remindyoursubs.dto.SubscriptionResponseDTO;
@@ -47,6 +48,12 @@ public class SubscriptionController {
     public ResponseEntity<MonthlyExpenseDTO> getMonthlyExpense(@PathVariable Long userId) {
         MonthlyExpenseDTO expense = subscriptionService.getMonthlyExpense(userId);
         return ResponseEntity.ok(expense);
+    }
+
+    @GetMapping("/user/{userId}/analytics")
+    public ResponseEntity<AnalyticsDTO> getAnalytics(@PathVariable Long userId) {
+        AnalyticsDTO analytics = subscriptionService.getAnalytics(userId);
+        return ResponseEntity.ok(analytics);
     }
 
     @PostMapping
