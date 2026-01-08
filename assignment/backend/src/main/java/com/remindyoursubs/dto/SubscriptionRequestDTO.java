@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -22,10 +23,11 @@ public class SubscriptionRequestDTO {
     @DecimalMin(value = "0.0", message = "Price must be greater than or equal to 0")
     private BigDecimal price;
 
-    @NotNull(message = "Billing date is required")
-    @Min(value = 1, message = "Billing date must be between 1 and 31")
-    @Max(value = 31, message = "Billing date must be between 1 and 31")
-    private Integer billingDate;
+    @NotNull(message = "Next billing date is required")
+    private LocalDate nextBillingDate;
+
+    private String reminderTiming = "1_DAY"; // "1_DAY", "1_HOUR", "30_MIN", "CUSTOM"
+    private Integer reminderCustomMinutes; // For CUSTOM timing
 
     private Boolean isActive = true;
     private Boolean reminderEnabled = true;

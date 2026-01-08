@@ -36,11 +36,15 @@ public class Subscription {
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal price;
 
-    @NotNull(message = "Billing date is required")
-    @Min(value = 1, message = "Billing date must be between 1 and 31")
-    @Max(value = 31, message = "Billing date must be between 1 and 31")
-    @Column(name = "billing_date", nullable = false)
-    private Integer billingDate;
+    @NotNull(message = "Next billing date is required")
+    @Column(name = "next_billing_date", nullable = false)
+    private LocalDate nextBillingDate;
+
+    @Column(name = "reminder_timing", length = 20)
+    private String reminderTiming = "1_DAY"; // "1_DAY", "1_HOUR", "30_MIN", "CUSTOM"
+
+    @Column(name = "reminder_custom_minutes")
+    private Integer reminderCustomMinutes; // For CUSTOM timing
 
     @Column(name = "is_active")
     private Boolean isActive = true;
