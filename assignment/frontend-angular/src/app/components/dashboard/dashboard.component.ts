@@ -144,7 +144,7 @@ export class DashboardComponent implements OnInit {
 
     checkUpcomingPayments() {
         this.upcomingPayments = this.subscriptions.filter(sub => {
-            const days = this.calculateDaysUntilBilling(sub.billingDate);
+            const days = this.calculateDaysUntilBilling(sub.nextBillingDate);
             return days >= 0 && days <= 7;
         });
     }
@@ -325,7 +325,7 @@ export class DashboardComponent implements OnInit {
         today.setHours(0, 0, 0, 0);
         const billing = new Date(nextBillingDate);
         billing.setHours(0, 0, 0, 0);
-        
+
         const diffTime = billing.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
