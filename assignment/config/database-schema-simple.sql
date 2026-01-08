@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     reminder_days_before INT DEFAULT 3,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -70,8 +71,8 @@ CREATE TABLE IF NOT EXISTS notifications (
 -- ============================================
 
 -- Insert a test user
-INSERT INTO users (email, name, reminder_days_before) 
-VALUES ('test@example.com', 'Test User', 3)
+INSERT INTO users (email, name, password, reminder_days_before) 
+VALUES ('test@example.com', 'Test User', 'password', 3)
 ON DUPLICATE KEY UPDATE email=email;
 
 -- Get the user_id for sample subscriptions

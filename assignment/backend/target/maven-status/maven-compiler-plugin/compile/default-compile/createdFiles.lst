@@ -3,6 +3,7 @@ com\remindyoursubs\exception\ResourceNotFoundException.class
 com\remindyoursubs\service\NotificationService.class
 com\remindyoursubs\dto\MonthlyExpenseDTO.class
 com\remindyoursubs\repository\UserRepository.class
+com\remindyoursubs\config\SecurityConfig.class
 com\remindyoursubs\controller\NotificationController.class
 com\remindyoursubs\dto\NotificationResponseDTO.class
 com\remindyoursubs\dto\UserResponseDTO.class
@@ -15,11 +16,17 @@ com\remindyoursubs\model\User.class
 com\remindyoursubs\dto\EmailRequestDTO.class
 com\remindyoursubs\repository\SubscriptionRepository.class
 com\remindyoursubs\controller\UserController.class
+com\remindyoursubs\dto\JwtResponseDTO.class
 com\remindyoursubs\exception\GlobalExceptionHandler.class
 com\remindyoursubs\RemindYourSubsApplication$1.class
 com\remindyoursubs\RemindYourSubsApplication.class
+com\remindyoursubs\controller\AuthController.class
 com\remindyoursubs\model\Notification.class
 com\remindyoursubs\model\Subscription.class
+com\remindyoursubs\security\JwtAuthenticationFilter.class
 com\remindyoursubs\controller\SubscriptionController.class
 com\remindyoursubs\service\EmailService$1.class
+com\remindyoursubs\dto\LoginRequestDTO.class
+com\remindyoursubs\config\ApplicationConfig.class
+com\remindyoursubs\security\JwtTokenProvider.class
 com\remindyoursubs\service\UserService.class
