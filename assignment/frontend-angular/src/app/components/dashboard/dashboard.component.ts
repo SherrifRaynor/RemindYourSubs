@@ -3,6 +3,8 @@ import { Subscription, SubscriptionRequest } from '../../models/subscription.mod
 import { MonthlyExpense } from '../../models/monthly-expense.model';
 import { SubscriptionService } from '../../services/subscription.service';
 import { AuthService } from '../../services/auth.service';
+import { AnalyticsData } from '../../models/analytics.model';
+import { ChartConfiguration } from 'chart.js';
 
 @Component({
     selector: 'app-dashboard',
@@ -20,13 +22,85 @@ export class DashboardComponent implements OnInit {
         userId: 1,
         name: '',
         price: 0,
-        billingDate: new Date().getDate()
+        nextBillingDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+        reminderTiming: '1_DAY'
     };
 
     toast = {
         show: false,
         message: '',
         type: 'success' as 'success' | 'error'
+    };
+
+    // Analytics data and charts
+    analyticsData: AnalyticsData | null = null;
+
+    // Line Chart Config (Monthly Trend)
+    lineChartData: ChartConfiguration['data'] = {
+        datasets: [],
+        labels: []
+    };
+
+    lineChartOptions: ChartConfiguration['options'] = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true,
+                labels: {
+                    color: '#e4e4e7' // zinc-200
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: '#a1a1aa' // zinc-400
+                },
+                grid: {
+                    color: '#27272a' // zinc-800
+                }
+            },
+            x: {
+                ticks: {
+                    color: '#a1a1aa' // zinc-400
+                },
+                grid: {
+                    color: '#27272a' // zinc-800
+                }
+            }
+        }
+    };
+
+    // Doughnut Chart Config (Distribution)
+    doughnutChartData: ChartConfiguration<'doughnut'>['data'] = {
+        datasets: [{
+            data: [],
+            backgroundColor: [
+                '#3b82f6', // blue-500
+                '#60a5fa', // blue-400
+                '#93c5fd'  // blue-300
+            ],
+            borderColor: '#18181b', // zinc-900
+            borderWidth: 2
+        }],
+        labels: []
+    };
+
+    doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                    color: '#e4e4e7', // zinc-200
+                    padding: 15
+                }
+            }
+        }
     };
 
     private userId = 1; // Will be updated from auth
@@ -45,6 +119,7 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         this.loadSubscriptions();
         this.loadMonthlyExpense();
+        this.loadAnalytics();
     }
 
     logout() {
@@ -90,6 +165,53 @@ export class DashboardComponent implements OnInit {
         });
     }
 
+    loadAnalytics() {
+        this.subscriptionService.getAnalytics(this.userId).subscribe({
+            next: (data) => {
+                this.analyticsData = data;
+                this.updateCharts();
+            },
+            error: (error) => {
+                console.error('Error loading analytics:', error);
+            }
+        });
+    }
+
+    updateCharts() {
+        if (!this.analyticsData) return;
+
+        // Update Line Chart (Monthly Trend)
+        this.lineChartData = {
+            labels: this.analyticsData.monthlyTrend.map(t => t.month),
+            datasets: [
+                {
+                    data: this.analyticsData.monthlyTrend.map(t => t.totalExpense),
+                    label: 'Pengeluaran Bulanan',
+                    borderColor: '#3b82f6', // blue-500
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }
+            ]
+        };
+
+        // Update Doughnut Chart (Distribution)
+        const dist = this.analyticsData.distribution;
+        this.doughnutChartData = {
+            labels: ['< Rp 100k', 'Rp 100k - 250k', '> Rp 250k'],
+            datasets: [{
+                data: [dist.lowPrice, dist.mediumPrice, dist.highPrice],
+                backgroundColor: [
+                    '#3b82f6', // blue-500
+                    '#60a5fa', // blue-400
+                    '#93c5fd'  // blue-300
+                ],
+                borderColor: '#18181b', // zinc-900
+                borderWidth: 2
+            }]
+        };
+    }
+
     openAddForm() {
         this.editingSubscription = null;
         this.isFormOpen = true;
@@ -97,7 +219,8 @@ export class DashboardComponent implements OnInit {
             userId: this.userId,
             name: '',
             price: 0,
-            billingDate: new Date().getDate()
+            nextBillingDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+            reminderTiming: '1_DAY'
         };
     }
 
@@ -107,7 +230,9 @@ export class DashboardComponent implements OnInit {
             userId: this.userId,
             name: subscription.name,
             price: subscription.price,
-            billingDate: subscription.billingDate
+            nextBillingDate: subscription.nextBillingDate,
+            reminderTiming: subscription.reminderTiming || '1_DAY',
+            reminderCustomMinutes: subscription.reminderCustomMinutes
         };
         this.isFormOpen = true;
     }
@@ -119,7 +244,8 @@ export class DashboardComponent implements OnInit {
             userId: this.userId,
             name: '',
             price: 0,
-            billingDate: new Date().getDate()
+            nextBillingDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+            reminderTiming: '1_DAY'
         };
     }
 
@@ -132,6 +258,7 @@ export class DashboardComponent implements OnInit {
                     this.showToast('Langganan berhasil diperbarui');
                     this.loadSubscriptions();
                     this.loadMonthlyExpense();
+                    this.loadAnalytics();
                     this.closeForm();
                 },
                 error: (error) => {
@@ -146,6 +273,7 @@ export class DashboardComponent implements OnInit {
                     this.showToast('Langganan baru ditambahkan');
                     this.loadSubscriptions();
                     this.loadMonthlyExpense();
+                    this.loadAnalytics();
                     this.closeForm();
                 },
                 error: (error) => {
@@ -163,6 +291,7 @@ export class DashboardComponent implements OnInit {
                     this.showToast('Langganan dihapus');
                     this.loadSubscriptions();
                     this.loadMonthlyExpense();
+                    this.loadAnalytics();
                 },
                 error: (error) => {
                     console.error('Error deleting subscription:', error);
@@ -191,21 +320,13 @@ export class DashboardComponent implements OnInit {
         }, 3000);
     }
 
-    calculateDaysUntilBilling(billingDate: number): number {
+    calculateDaysUntilBilling(nextBillingDate: string): number {
         const today = new Date();
-        const currentDay = today.getDate();
-        const currentMonth = today.getMonth();
-        const currentYear = today.getFullYear();
-
-        let nextBillingDate: Date;
-
-        if (billingDate >= currentDay) {
-            nextBillingDate = new Date(currentYear, currentMonth, billingDate);
-        } else {
-            nextBillingDate = new Date(currentYear, currentMonth + 1, billingDate);
-        }
-
-        const diffTime = nextBillingDate.getTime() - today.getTime();
+        today.setHours(0, 0, 0, 0);
+        const billing = new Date(nextBillingDate);
+        billing.setHours(0, 0, 0, 0);
+        
+        const diffTime = billing.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
         return diffDays;
