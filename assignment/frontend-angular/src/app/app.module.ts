@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PaymentMethodsComponent } from './components/payment-methods/payment-methods.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 
 @NgModule({
@@ -16,7 +17,8 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    PaymentMethodsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,4 @@
+/* Additional component-specific styles if needed */
+.payment-card {
+  backdrop-filter: blur(10px);
+}

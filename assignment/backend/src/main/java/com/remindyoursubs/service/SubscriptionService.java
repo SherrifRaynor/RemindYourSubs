@@ -155,6 +155,7 @@ public class SubscriptionService {
     public SubscriptionResponseDTO createSubscription(SubscriptionRequestDTO requestDTO) {
         Subscription subscription = new Subscription();
         subscription.setUserId(requestDTO.getUserId());
+        subscription.setPaymentMethodId(requestDTO.getPaymentMethodId()); // Link payment method
         subscription.setName(requestDTO.getName());
         subscription.setPrice(requestDTO.getPrice());
         subscription.setNextBillingDate(requestDTO.getNextBillingDate());
@@ -174,6 +175,7 @@ public class SubscriptionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Subscription", "id", id));
 
         subscription.setUserId(requestDTO.getUserId());
+        subscription.setPaymentMethodId(requestDTO.getPaymentMethodId()); // Update payment method
         subscription.setName(requestDTO.getName());
         subscription.setPrice(requestDTO.getPrice());
         subscription.setNextBillingDate(requestDTO.getNextBillingDate());
@@ -206,6 +208,8 @@ public class SubscriptionService {
         SubscriptionResponseDTO dto = new SubscriptionResponseDTO();
         dto.setId(subscription.getId());
         dto.setUserId(subscription.getUserId());
+        dto.setPaymentMethodId(subscription.getPaymentMethodId());
+        dto.setPaymentMethodNickname(null); // TODO: Fetch from PaymentMethodService if needed
         dto.setName(subscription.getName());
         dto.setPrice(subscription.getPrice());
         dto.setNextBillingDate(subscription.getNextBillingDate());

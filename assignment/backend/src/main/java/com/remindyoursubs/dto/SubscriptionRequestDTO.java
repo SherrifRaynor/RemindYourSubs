@@ -16,6 +16,8 @@ public class SubscriptionRequestDTO {
     @NotNull(message = "User ID is required")
     private Long userId;
 
+    private Long paymentMethodId; // Optional: Link to payment method
+
     @NotBlank(message = "Subscription name is required")
     private String name;
 

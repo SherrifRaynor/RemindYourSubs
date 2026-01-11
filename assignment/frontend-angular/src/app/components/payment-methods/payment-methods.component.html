@@ -1,0 +1,196 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Back Button -->
+  <div class="mb-6">
+    <a routerLink="/" class="inline-flex items-center text-gray-400 hover:text-white transition-colors group">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform"
+        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      Back to Dashboard
+    </a>
+  </div>
+
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-white">Payment Methods</h1>
+      <p class="text-gray-400 mt-2">Manage your payment cards and e-wallets</p>
+    </div>
+    <button (click)="openCreateForm()"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg shadow-blue-900/20">
+      <span class="mr-2">+</span> Add Payment Method
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="bg-red-500 bg-opacity-10 border border-red-500 text-red-500 px-4 py-3 rounded-lg mb-6">
+    {{ error }}
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex justify-center items-center py-20">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+  </div>
+
+  <!-- Payment Methods Grid -->
+  <div *ngIf="!loading && paymentMethods.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let method of paymentMethods"
+      class="bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-xl p-6 border border-zinc-700 hover:border-blue-500 transition-all duration-300 relative overflow-hidden">
+
+      <!-- Default Badge -->
+      <div *ngIf="method.isDefault"
+        class="absolute top-4 right-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+        DEFAULT
+      </div>
+
+      <!-- Card Header -->
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center space-x-3">
+          <span class="text-4xl">{{ getIcon(method.type) }}</span>
+          <div>
+            <h3 class="font-semibold text-white">{{ method.nickname || method.provider }}</h3>
+            <p class="text-sm text-gray-400">{{ method.provider }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Number -->
+      <div class="mb-4">
+        <p class="text-2xl font-mono text-gray-300 tracking-wider">{{ method.maskedNumber || 'N/A' }}</p>
+      </div>
+
+      <!-- Expiry & Status -->
+      <div class="flex justify-between items-center mb-4">
+        <div *ngIf="method.expiryDate">
+          <p class="text-xs text-gray-500 uppercase">Expires</p>
+          <p class="text-sm font-semibold text-white">{{ method.expiryDate }}</p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs" [ngClass]="getStatusClass(method)">{{ getStatusText(method) }}</p>
+          <p *ngIf="method.subscriptionCount && method.subscriptionCount > 0" class="text-xs text-gray-400 mt-1">
+            {{ method.subscriptionCount }} subscription(s)
+          </p>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex space-x-2 mt-4 pt-4 border-t border-zinc-700">
+        <button *ngIf="!method.isDefault" (click)="setAsDefault(method)"
+          class="flex-1 bg-zinc-700 hover:bg-zinc-600 text-white px-3 py-2 rounded-lg text-sm transition-colors">
+          Set Default
+        </button>
+        <button (click)="openEditForm(method)"
+          class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm transition-colors">
+          Edit
+        </button>
+        <button (click)="deletePaymentMethod(method)"
+          class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm transition-colors">
+          🗑️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && paymentMethods.length === 0" class="text-center py-20">
+    <div class="text-6xl mb-4">💳</div>
+    <h3 class="text-xl font-semibold text-white mb-2">No Payment Methods Yet</h3>
+    <p class="text-gray-400 mb-6">Add your first payment method to link with subscriptions</p>
+    <button (click)="openCreateForm()"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg shadow-blue-900/20">
+      Add Payment Method
+    </button>
+  </div>
+
+  <!-- Modal Form -->
+  <div *ngIf="showForm" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+    <div class="bg-zinc-900 rounded-xl p-8 max-w-md w-full border border-zinc-700 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-white">
+          {{ editingMethod ? 'Edit Payment Method' : 'Add Payment Method' }}
+        </h2>
+        <button (click)="closeForm()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+      </div>
+
+      <form (ngSubmit)="savePaymentMethod()" class="space-y-4">
+        <!-- Payment Type -->
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Payment Type *</label>
+          <select [(ngModel)]="formData.type" name="type"
+            class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <option *ngFor="let type of paymentTypes" [value]="type.value">
+              {{ type.icon }} {{ type.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Nickname -->
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Nickname *</label>
+          <input type="text" [(ngModel)]="formData.nickname" name="nickname"
+            placeholder="e.g., Personal Visa, Work Card"
+            class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            required>
+        </div>
+
+        <!-- Provider -->
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Provider</label>
+          <select [(ngModel)]="formData.provider" name="provider"
+            class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <option value="">Select provider...</option>
+            <option *ngFor="let provider of providers" [value]="provider">{{ provider }}</option>
+          </select>
+        </div>
+
+        <!-- Last 4 Digits (Cards only) -->
+        <div *ngIf="needsExpiry()">
+          <label class="block text-sm font-medium text-gray-300 mb-2">Last 4 Digits *</label>
+          <input type="text" [(ngModel)]="formData.lastFourDigits" name="lastFourDigits" placeholder="1234"
+            maxlength="4" pattern="[0-9]{4}"
+            class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
+
+        <!-- Expiry Date (Cards only) -->
+        <div *ngIf="needsExpiry()" class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Expiry Month *</label>
+            <select [(ngModel)]="formData.expiryMonth" name="expiryMonth"
+              class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <option [value]="undefined">Month</option>
+              <option *ngFor="let month of [1,2,3,4,5,6,7,8,9,10,11,12]" [value]="month">{{ month }}</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Expiry Year *</label>
+            <select [(ngModel)]="formData.expiryYear" name="expiryYear"
+              class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <option [value]="undefined">Year</option>
+              <option *ngFor="let year of [2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034]" [value]="year">{{
+                year }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Set as Default -->
+        <div class="flex items-center">
+          <input type="checkbox" [(ngModel)]="formData.isDefault" name="isDefault" id="isDefault"
+            class="w-4 h-4 text-blue-600 bg-zinc-800 border-zinc-700 rounded focus:ring-blue-500">
+          <label for="isDefault" class="ml-2 text-sm text-gray-300">Set as default payment method</label>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex space-x-3 pt-4">
+          <button type="button" (click)="closeForm()"
+            class="flex-1 bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+            Cancel
+          </button>
+          <button type="submit" [disabled]="!isFormValid()"
+            class="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 shadow-lg shadow-blue-900/20">
+            {{ editingMethod ? 'Update' : 'Create' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

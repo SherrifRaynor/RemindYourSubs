@@ -27,6 +27,9 @@ public class Subscription {
     @NotNull(message = "User ID is required")
     private Long userId;
 
+    @Column(name = "payment_method_id")
+    private Long paymentMethodId;
+
     @NotBlank(message = "Subscription name is required")
     @Column(nullable = false, length = 100)
     private String name;

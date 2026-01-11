@@ -15,6 +15,8 @@ public class SubscriptionResponseDTO {
 
     private Long id;
     private Long userId;
+    private Long paymentMethodId;
+    private String paymentMethodNickname; // Display name for payment method
     private String name;
     private BigDecimal price;
     private LocalDate nextBillingDate;
