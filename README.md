@@ -56,15 +56,6 @@ POST   /api/v1/auth/register          - Register new user
 POST   /api/v1/auth/login             - Login user
 ```
 
-### 👤 Users
-```
-GET    /api/v1/users                  - Get all users
-GET    /api/v1/users/{id}             - Get user by ID
-POST   /api/v1/users                  - Create user
-PUT    /api/v1/users/{id}             - Update user
-DELETE /api/v1/users/{id}             - Delete user
-```
-
 ### 📅 Subscriptions
 ```
 GET    /api/v1/subscriptions                          - Get all subscriptions
