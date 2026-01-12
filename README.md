@@ -90,16 +90,6 @@ GET    /api/v1/payment-methods/user/{userId}/expiring?days=30  - Get expiring ca
 GET    /api/v1/payment-methods/user/{userId}/analytics        - Get analytics
 POST   /api/v1/payment-methods/user/{userId}/check-alerts     - Trigger expiry alerts
 ```
-
-### 🔔 Notifications
-```
-GET    /api/v1/notifications/user/{userId}            - Get user's notifications
-GET    /api/v1/notifications/{id}                     - Get notification by ID
-POST   /api/v1/notifications                          - Create notification
-PUT    /api/v1/notifications/{id}/mark-read           - Mark as read
-DELETE /api/v1/notifications/{id}                     - Delete notification
-```
-
 ---
 
 ## 🧪 Testing with Postman
